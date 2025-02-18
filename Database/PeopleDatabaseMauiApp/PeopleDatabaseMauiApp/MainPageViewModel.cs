@@ -9,48 +9,47 @@ using System.Threading.Tasks;
 
 namespace PeopleDatabaseMauiApp
 {
-	public class MainPageViewModel : BindableObject
-	{
-		private PeopleRepository peopleRepository = new PeopleRepository();
+    public class MainPageViewModel : BindableObject
+    {
+        private PeopleRepository peopleRepository = new PeopleRepository();
 
-		private string name;
-		public string Name
-		{
-			get { return name; }
-			set { name = value; OnPropertyChanged(); }
-		}
-		private string surname;
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; OnPropertyChanged(); }
+        }
 
-		public string Surname
-		{
-			get { return surname; }
-			set { surname = value; OnPropertyChanged(); }
-		}
+        private string surname;
+        public string Surname
+        {
+            get { return surname; }
+            set { surname = value; OnPropertyChanged(); }
+        }
 
-		private int age;
+        private int age;
+        public int Age
+        {
+            get { return age; }
+            set { age = value; OnPropertyChanged(); }
+        }
 
-		public int Age
-		{
-			get { return age; }
-			set { age = value; OnPropertyChanged(); }
-		}
+        public Command createPersonCommand;
+        public Command CreatePersonCommand
+        {
+            get
+            {
+                if (createPersonCommand == null)
+                    createPersonCommand = new Command(() =>
+                    {
+                        peopleRepository.CreateNewPerson(name, surname, age);
+                    });
 
-		public Command createPersonCommand;
-		public Command CreatePersonCommand
-		{
-			get
-			{
-				if (createPersonCommand == null)
-					createPersonCommand = new Command(() =>
-					{
-						peopleRepository.CreateNewPerson(name, surname, age);
-					});
+                return createPersonCommand;
+            }
+        }
 
-				return createPersonCommand;
-			}
-		}
-
-		public ObservableCollection<Person> People;
+        public ObservableCollection<Person> People { get; set; }
 
         public Command getLegalAgePeopleCommand;
         public Command GetLegalAgePeopleCommand
@@ -60,32 +59,40 @@ namespace PeopleDatabaseMauiApp
                 if (getLegalAgePeopleCommand == null)
                     getLegalAgePeopleCommand = new Command(() =>
                     {
-						List<Person> legalAgePeople = peopleRepository.GetLegalAgePeople();
-						People.Clear();
-						foreach(Person person in legalAgePeople)
-						{
-							People.Add(person);
-						}
+                        List<Person> legalAgePeople = peopleRepository.GetLegalAgePeople();
+                        People.Clear();
+                        foreach (Person person in legalAgePeople)
+                        {
+                            People.Add(person);
+                        }
                     });
 
                 return getLegalAgePeopleCommand;
             }
         }
 
+        private Person currentPersonSelection;
+
+        public Person CurrentPersonSelection
+        {
+            get { return currentPersonSelection; }
+            set { currentPersonSelection = value; OnPropertyChanged(); }
+        }
+
         public Command saveChangesCommand;
         public Command SaveChangesCommand
         {
             get
-			{
-				if (saveChangesCommand == null)
-					saveChangesCommand = new Command(() =>
-					{
-						if(currentPersonSelection != null)
-							peopleRepository.SaveChangePerson(currentPersonSelection);
-					});
+            {
+                if (saveChangesCommand == null)
+                    saveChangesCommand = new Command(() =>
+                    {
+                        if (currentPersonSelection != null)
+                            peopleRepository.SaveChangePerson(currentPersonSelection);
+                    });
 
-				return saveChangesCommand;
-			}
+                return saveChangesCommand;
+            }
         }
 
         public Command deletePersonCommand;
@@ -96,29 +103,20 @@ namespace PeopleDatabaseMauiApp
                 if (deletePersonCommand == null)
                     deletePersonCommand = new Command(() =>
                     {
-                        if(currentPersonSelection != null)
-						{
-							peopleRepository.DeletePerson(currentPersonSelection.Id);
-							People.Remove(currentPersonSelection);
-						}
+                        if (currentPersonSelection != null)
+                        {
+                            peopleRepository.DeletePerson(currentPersonSelection.Id);
+                            People.Remove(currentPersonSelection);
+                        }
                     });
-				
+
                 return deletePersonCommand;
             }
         }
 
-        private Person currentPersonSelection;
-
-		public Person CurrentPersonSelection
-		{
-			get { return currentPersonSelection; }
-			set { currentPersonSelection = value; OnPropertyChanged(); }
-		}
-
-
-		public MainPageViewModel()
+        public MainPageViewModel()
         {
-			People = new ObservableCollection<Person>();
+            People = new ObservableCollection<Person>();
         }
     }
 }
