@@ -23,5 +23,19 @@ namespace QuizClassLibrary
                 .Where(p => p.Id == id)
                 .ToList();
         }
+
+        public List<Answer> DownloadCurrentAnswers(int id)
+        {
+            return dbContext
+                .Answers
+                .Where(p => p.QuestionId == id)
+                .ToList();
+        }
+
+        public int DownloadQuestionsAmount()
+        {
+            return dbContext
+                .Questions.Count();
+        }
     }
 }

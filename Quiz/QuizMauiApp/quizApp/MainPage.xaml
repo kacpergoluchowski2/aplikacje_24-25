@@ -10,28 +10,25 @@
     <StackLayout>
         <StackLayout>
             <Label Text="{Binding QuestionLabel}"
-               Background="brown"
                Margin="15"
-               Padding="50, 15"
+               Padding="25, 15"
                FontSize="25"
-               HeightRequest="150"/>
+               />
         </StackLayout>
         <StackLayout
-        Background="brown"
         Margin="15"
-        HeightRequest="350"
-        Padding="50, 15">
+        Padding="25, 15">
             <RadioButton Content="{Binding Answer1Label}"
-                     FontSize="25"
+                     FontSize="15"
                      IsChecked="{Binding Answer1RadioButton}"/>
             <RadioButton Content="{Binding Answer2Label}"
-                     FontSize="25"
+                     FontSize="15"
                      IsChecked="{Binding Answer2RadioButton}"/>
             <RadioButton Content="{Binding Answer3Label}"
-                     FontSize="25"
+                     FontSize="15"
                      IsChecked="{Binding Answer3RadioButton}"/>
             <RadioButton Content="{Binding Answer4Label}"
-                     FontSize="25"
+                     FontSize="15"
                      IsChecked="{Binding Answer4RadioButton}"/>
         </StackLayout>
         <Label Text="{Binding Result}"
